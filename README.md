@@ -13,13 +13,14 @@ A modern full-stack monorepo with Next.js, Node.js, Python, and shared utilities
 │   ├── webapp1/            # Next.js application
 │   └── webapp2/            # Next.js application
 ├── packages/
-│   └── shared/             # Shared TypeScript utilities
+│   ├── shared/             # Shared TypeScript utilities
+│   └── ui/                 # Shared React components
 └── docker/                 # Docker configurations
 ```
 
 ## Technologies
 
-- **Frontend**: Next.js, React, TypeScript, TailwindCSS
+- **Frontend**: Next.js 15, React 18, TypeScript, TailwindCSS
 - **Backend**: Node.js/Express, Python/FastAPI
 - **Queue Processing**: BullMQ, Redis
 - **Database**: PostgreSQL with Drizzle ORM
@@ -33,23 +34,27 @@ A modern full-stack monorepo with Next.js, Node.js, Python, and shared utilities
 - Node.js 18+
 - Python 3.11+
 - Docker and Docker Compose
-- pnpm (recommended) or npm
+- PostgreSQL 15+
+- Redis 7+
 
 ## Getting Started
 
 1. Clone the repository:
+
    ```bash
    git clone <repository-url>
    cd full-stack-monorepo
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    cd apps/python-api && pip install -r requirements.txt
    ```
 
 3. Set up environment variables:
+
    ```bash
    # Copy all example env files
    cp .env.example .env
@@ -61,17 +66,20 @@ A modern full-stack monorepo with Next.js, Node.js, Python, and shared utilities
    ```
 
 4. Start development resources:
+
    ```bash
    docker-compose -f docker-compose.dev.yml up -d
    ```
 
 5. Run database migrations:
+
    ```bash
    cd packages/shared
    npm run migrate
    ```
 
 6. Start development servers:
+
    ```bash
    npm run dev
    ```
@@ -86,6 +94,7 @@ A modern full-stack monorepo with Next.js, Node.js, Python, and shared utilities
 - `npm run dev:api` - Start Node.js API
 - `npm run dev:python-api` - Start Python API
 - `npm run dev:queue` - Start queue worker
+- `npm run dev:ui` - Start UI package in watch mode
 - `npm run build` - Build all packages and applications
 - `npm run test` - Run tests
 - `npm run lint` - Run linting
@@ -107,7 +116,7 @@ npm run migrate
 Schema is defined in `packages/shared/src/db/schema.ts` and can be imported by any application:
 
 ```typescript
-import { createDbConnection, users } from '@monorepo/shared';
+import { createDbConnection, users } from "@monorepo/shared";
 
 const db = createDbConnection();
 // Use db.select(), db.insert(), etc.
@@ -131,12 +140,27 @@ Background job processing is handled by BullMQ with Redis:
 - Job status tracking
 - Scalable worker processes
 
+### Shared UI Components
+
+The project includes a shared UI package with React components:
+
+- Pre-built components with TailwindCSS
+- TypeScript support
+- Fully tree-shakeable
+- Common hooks and utilities
+
+Usage:
+
+```typescript
+import { Button, Input } from "@monorepo/ui";
+```
+
 ### Ports
 
-- Webapp1: http://localhost:3000
-- Webapp2: http://localhost:3001
-- Node.js API: http://localhost:4000
-- Python API: http://localhost:5000
+- Webapp1: <http://localhost:3000>
+- Webapp2: <http://localhost:3001>
+- Node.js API: <http://localhost:4000>
+- Python API: <http://localhost:5000>
 - Redis: localhost:6379
 - PostgreSQL: localhost:5432
 
@@ -169,6 +193,7 @@ The project uses GitHub Actions for CI/CD with optimized build and deployment pi
 ### Continuous Integration (CI)
 
 Runs on pull requests and pushes to main:
+
 - Builds and tests affected packages
 - Runs linting and type checking
 - Caches dependencies and build artifacts
@@ -183,6 +208,7 @@ Our CD pipeline is optimized using Turborepo's powerful features:
 - Compares against the main branch to determine what has changed
 - Skips building unmodified applications
 - Example:
+
   ```bash
   turbo run build test --filter=[origin/main]
   ```
@@ -193,10 +219,11 @@ Our CD pipeline is optimized using Turborepo's powerful features:
 - Configured using `TURBO_TOKEN` and `TURBO_TEAM` environment variables
 - Significantly reduces build times by reusing previous builds
 - Setup:
+
   ```bash
   # Login to enable remote caching
   npx turbo login
-  
+
   # Link your repository
   npx turbo link
   ```
@@ -213,6 +240,7 @@ Our CD pipeline is optimized using Turborepo's powerful features:
 - Uses GitHub Actions' changed files detection
 - Prevents unnecessary deployments of unchanged services
 - Example workflow:
+
   ```yaml
   - name: Deploy webapp1
     if: contains(steps.changed-files.outputs.modified_files, 'apps/webapp1/')
@@ -222,6 +250,7 @@ Our CD pipeline is optimized using Turborepo's powerful features:
 #### Pipeline Configuration
 
 The pipeline is configured in `turbo.json`:
+
 ```json
 {
   "pipeline": {
@@ -238,6 +267,7 @@ The pipeline is configured in `turbo.json`:
 ```
 
 This setup ensures:
+
 - Clear definition of task dependencies
 - Proper output caching configuration
 - Consistent environment variables handling
@@ -245,11 +275,13 @@ This setup ensures:
 To use this setup effectively:
 
 1. Set up remote caching:
+
    ```bash
    npx turbo login
    ```
 
 2. Add these secrets to your GitHub repository:
+
    - `TURBO_TOKEN`: From Vercel/Turborepo
    - `TURBO_TEAM`: Your team slug from Vercel
 
@@ -282,3 +314,4 @@ Each application has its own `.env` file for configuration. Example files are pr
 ## License
 
 [Add your license here]
+
