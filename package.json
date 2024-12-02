@@ -2,40 +2,23 @@
   "name": "full-stack-monorepo",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
-    "build:webapp1": "turbo run build --filter=@monorepo/webapp1",
-    "build:webapp2": "turbo run build --filter=@monorepo/webapp2",
-    "build:api": "turbo run build --filter=@monorepo/api",
-    "build:python-api": "cd apps/python-api && python -m compileall .",
-    "build:queue-worker": "turbo run build --filter=@monorepo/queue-worker",
+    "build": "turbo build",
     "build:shared": "turbo run build --filter=@monorepo/shared",
-    "build:ui": "turbo run build --filter=@monorepo/ui",
-    "dev": "concurrently \"npm run dev:webapp1\" \"npm run dev:webapp2\" \"npm run dev:api\" \"npm run dev:queue\" \"npm run dev:shared\" \"npm run dev:ui\"",
-    "dev:webapp1": "turbo run dev --filter=@monorepo/webapp1",
-    "dev:webapp2": "turbo run dev --filter=@monorepo/webapp2",
-    "dev:api": "turbo run dev --filter=@monorepo/api",
-    "dev:python-api": "cd apps/python-api && python main.py",
-    "dev:queue": "turbo run dev --filter=@monorepo/queue-worker",
-    "dev:shared": "turbo run dev --filter=@monorepo/shared",
-    "dev:ui": "turbo run dev --filter=@monorepo/ui",
-    "lint": "turbo run lint",
+    "clean": "turbo run clean",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "test": "turbo run test",
-    "clean": "turbo run clean"
+    "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
-    "@types/node": "^20.8.2",
-    "@typescript-eslint/eslint-plugin": "^6.7.4",
-    "@typescript-eslint/parser": "^6.7.4",
-    "concurrently": "^8.2.2",
-    "eslint": "^8.50.0",
-    "eslint-config-prettier": "^9.0.0",
-    "prettier": "^3.0.3",
-    "turbo": "^1.10.14",
-    "typescript": "^5.2.2"
+    "prettier": "^3.3.5",
+    "turbo": "^2.3.3",
+    "typescript": "5.5.4"
   },
+  "packageManager": "npm@10.9.0",
   "workspaces": [
     "apps/*",
     "packages/*"
   ]
 }
-

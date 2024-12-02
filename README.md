@@ -100,6 +100,12 @@ A modern full-stack monorepo with Next.js, Node.js, Python, and shared utilities
 - `npm run lint` - Run linting
 - `npm run clean` - Clean build artifacts
 
+### Adding a new dependency
+
+When you install a dependency, you should install it directly in the package that uses it. The package's package.json will have every dependency that the package needs. This is true for both external and internal dependencies.
+
+Here is an example: `npm install jest --workspace=web --workspace=@repo/ui --save-dev`
+
 ### Database Management
 
 The project uses Drizzle ORM with PostgreSQL. Database schema and migrations are centralized in the shared package:
@@ -152,7 +158,7 @@ The project includes a shared UI package with React components:
 Usage:
 
 ```typescript
-import { Button, Input } from "@monorepo/ui";
+import { Button, Input } from "@monorepo/ui/components";
 ```
 
 ### Ports
@@ -314,4 +320,3 @@ Each application has its own `.env` file for configuration. Example files are pr
 ## License
 
 [Add your license here]
-

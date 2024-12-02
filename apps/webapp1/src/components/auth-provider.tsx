@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useEffect, useState } from 'react';
-import { JWTPayload } from '@monorepo/shared';
-import jwt_decode from 'jwt-decode';
+import { createContext, useContext, useEffect, useState } from "react";
+import { AuthTypes } from "@monorepo/shared";
+import jwt_decode from "jwt-decode";
 
 interface AuthContextType {
-  user: JWTPayload | null;
+  user: AuthTypes.JWTPayload | null;
   setAccessToken: (token: string) => void;
   clearAuth: () => void;
 }
@@ -17,24 +17,24 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<JWTPayload | null>(null);
+  const [user, setUser] = useState<AuthTypes.JWTPayload | null>(null);
 
   const setAccessToken = (token: string) => {
-    localStorage.setItem('accessToken', token);
-    const decoded = jwt_decode<JWTPayload>(token);
+    localStorage.setItem("accessToken", token);
+    const decoded = jwt_decode<AuthTypes.JWTPayload>(token);
     setUser(decoded);
   };
 
   const clearAuth = () => {
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem("accessToken");
     setUser(null);
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem("accessToken");
     if (token) {
       try {
-        const decoded = jwt_decode<JWTPayload>(token);
+        const decoded = jwt_decode<AuthTypes.JWTPayload>(token);
         setUser(decoded);
       } catch (error) {
         clearAuth();
@@ -50,3 +50,4 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 }
 
 export const useAuth = () => useContext(AuthContext);
+

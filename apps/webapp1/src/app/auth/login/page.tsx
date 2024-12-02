@@ -1,33 +1,33 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Button, Input } from '@monorepo/ui';
-import { login } from '../../../lib/auth';
-import { useAuth } from '../../../components/auth-provider';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button, Input } from "@monorepo/ui/components";
+import { login } from "../../../lib/auth";
+import { useAuth } from "../../../components/auth-provider";
 
 export default function LoginPage() {
   const router = useRouter();
   const { setAccessToken } = useAuth();
-  const [error, setError] = useState('');
-  
+  const [error, setError] = useState("");
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setError('');
-    
+    setError("");
+
     const formData = new FormData(e.currentTarget);
-    
+
     try {
       const tokens = await login({
-        email: formData.get('email') as string,
-        password: formData.get('password') as string,
+        email: formData.get("email") as string,
+        password: formData.get("password") as string,
       });
-      
+
       setAccessToken(tokens.accessToken);
-      router.push('/');
+      router.push("/");
     } catch (err) {
-      setError('Invalid credentials');
+      setError("Invalid credentials");
     }
   }
 
@@ -73,7 +73,10 @@ export default function LoginPage() {
           </div>
         </form>
         <div className="text-center">
-          <Link href="/auth/register" className="text-blue-600 hover:text-blue-500">
+          <Link
+            href="/auth/register"
+            className="text-blue-600 hover:text-blue-500"
+          >
             Don't have an account? Sign up
           </Link>
         </div>
@@ -81,3 +84,4 @@ export default function LoginPage() {
     </div>
   );
 }
+

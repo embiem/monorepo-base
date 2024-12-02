@@ -2,28 +2,48 @@
   "name": "@monorepo/ui",
   "version": "1.0.0",
   "private": true,
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "sideEffects": false,
+  "files": [
+    "dist/**"
+  ],
+  "exports": {
+    "./components": {
+      "types": "./src/components/index.tsx",
+      "require": "./dist/components/index.js",
+      "import": "./dist/components/index.mjs"
+    },
+    "./hooks": {
+      "types": "./src/hooks/index.ts",
+      "require": "./dist/hooks/index.js",
+      "import": "./dist/hooks/index.mjs"
+    },
+    "./utils": {
+      "types": "./src/utils/index.ts",
+      "require": "./dist/utils/index.js",
+      "import": "./dist/utils/index.mjs"
+    }
+  },
   "scripts": {
     "build": "tsup",
+    "clean": "rm -rf dist",
     "dev": "tsup --watch",
-    "clean": "rm -rf dist"
-  },
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "clsx": "^2.0.0",
-    "tailwind-merge": "^1.14.0"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/",
+    "test": "jest"
   },
   "devDependencies": {
-    "@types/react": "^18.2.24",
-    "@types/react-dom": "^18.2.8",
-    "tsup": "^7.2.0",
-    "typescript": "^5.2.2"
+    "@monorepo/eslint-config": "*",
+    "@monorepo/typescript-config": "*",
+    "@turbo/gen": "^1.12.4",
+    "@types/node": "^20.11.24",
+    "@types/react": "18.3.0",
+    "@types/react-dom": "18.3.1",
+    "typescript": "5.5.4"
   },
-  "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "react": "19.0.0-rc-5c56b873-20241107",
+    "react-dom": "19.0.0-rc-5c56b873-20241107",
+    "tailwind-merge": "^2.5.5"
   }
 }

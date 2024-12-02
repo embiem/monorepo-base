@@ -1,34 +1,34 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Button, Input } from '@monorepo/ui';
-import { register } from '../../../lib/auth';
-import { useAuth } from '../../../components/auth-provider';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button, Input } from "@monorepo/ui/components";
+import { register } from "../../../lib/auth";
+import { useAuth } from "../../../components/auth-provider";
 
 export default function RegisterPage() {
   const router = useRouter();
   const { setAccessToken } = useAuth();
-  const [error, setError] = useState('');
-  
+  const [error, setError] = useState("");
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setError('');
-    
+    setError("");
+
     const formData = new FormData(e.currentTarget);
-    
+
     try {
       const tokens = await register({
-        name: formData.get('name') as string,
-        email: formData.get('email') as string,
-        password: formData.get('password') as string,
+        name: formData.get("name") as string,
+        email: formData.get("email") as string,
+        password: formData.get("password") as string,
       });
-      
+
       setAccessToken(tokens.accessToken);
-      router.push('/');
+      router.push("/");
     } catch (err) {
-      setError('Registration failed');
+      setError("Registration failed");
     }
   }
 
@@ -84,7 +84,10 @@ export default function RegisterPage() {
           </div>
         </form>
         <div className="text-center">
-          <Link href="/auth/login" className="text-blue-600 hover:text-blue-500">
+          <Link
+            href="/auth/login"
+            className="text-blue-600 hover:text-blue-500"
+          >
             Already have an account? Sign in
           </Link>
         </div>
@@ -92,3 +95,4 @@ export default function RegisterPage() {
     </div>
   );
 }
+

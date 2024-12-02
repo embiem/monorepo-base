@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "clean": "rm -rf .next",
+    "dev": "next dev",
     "lint": "next lint",
-    "clean": "rm -rf .next"
+    "typecheck": "tsc --noEmit",
+    "start": "next start"
   },
   "dependencies": {
     "@monorepo/shared": "*",
@@ -26,4 +27,3 @@
     "typescript": "^5.2.2"
   }
 }
-

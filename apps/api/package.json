@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "build": "tsc",
     "start": "node dist/index.js",
-    "clean": "rm -rf dist"
+    "dev": "tsup --watch --onSuccess \"node dist/index.js\"",
+    "build": "tsup",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/",
+    "test": "jest --detectOpenHandles"
   },
   "dependencies": {
     "@monorepo/shared": "*",
@@ -24,3 +27,4 @@
     "typescript": "^5.2.2"
   }
 }
+
