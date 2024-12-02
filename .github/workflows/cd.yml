@@ -1,0 +1,58 @@
+name: CD
+
+on:
+  push:
+    branches: [main]
+
+env:
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v39
+        with:
+          files: |
+            apps/**
+            packages/**
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build affected apps
+        run: npx turbo run build --filter=[origin/main]
+
+      # Add deployment steps for each app
+      - name: Deploy webapp1
+        if: contains(steps.changed-files.outputs.modified_files, 'apps/webapp1/')
+        run: echo "Deploy webapp1" # Replace with actual deployment command
+
+      - name: Deploy webapp2
+        if: contains(steps.changed-files.outputs.modified_files, 'apps/webapp2/')
+        run: echo "Deploy webapp2" # Replace with actual deployment command
+
+      - name: Deploy API
+        if: contains(steps.changed-files.outputs.modified_files, 'apps/api/')
+        run: echo "Deploy API" # Replace with actual deployment command
+
+      - name: Deploy Python API
+        if: contains(steps.changed-files.outputs.modified_files, 'apps/python-api/')
+        run: echo "Deploy Python API" # Replace with actual deployment command
+
+      - name: Deploy Queue Worker
+        if: contains(steps.changed-files.outputs.modified_files, 'apps/queue-worker/')
+        run: echo "Deploy Queue Worker" # Replace with actual deployment command

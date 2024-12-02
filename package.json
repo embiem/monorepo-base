@@ -1,0 +1,33 @@
+{
+  "name": "full-stack-monorepo",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "concurrently \"npm run dev:webapp1\" \"npm run dev:webapp2\" \"npm run dev:api\" \"npm run dev:queue\" \"npm run dev:shared\" \"npm run dev:ui\"",
+    "dev:webapp1": "turbo run dev --filter=@monorepo/webapp1",
+    "dev:webapp2": "turbo run dev --filter=@monorepo/webapp2",
+    "dev:api": "turbo run dev --filter=@monorepo/api",
+    "dev:python-api": "cd apps/python-api && python main.py",
+    "dev:queue": "turbo run dev --filter=@monorepo/queue-worker",
+    "dev:shared": "turbo run dev --filter=@monorepo/shared",
+    "dev:ui": "turbo run dev --filter=@monorepo/ui",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.2",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.4",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.3",
+    "turbo": "^1.10.14",
+    "typescript": "^5.2.2"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

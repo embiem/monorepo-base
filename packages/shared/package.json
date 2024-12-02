@@ -1,0 +1,28 @@
+{
+  "name": "@monorepo/shared",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "generate": "drizzle-kit generate:pg",
+    "migrate": "ts-node src/db/migrate.ts"
+  },
+  "dependencies": {
+    "ioredis": "^5.3.2",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "drizzle-orm": "^0.28.6",
+    "postgres": "^3.3.5",
+    "@neondatabase/serverless": "^0.6.0"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.3",
+    "@types/bcryptjs": "^2.4.4",
+    "typescript": "^5.2.2",
+    "drizzle-kit": "^0.19.13"
+  }
+}
