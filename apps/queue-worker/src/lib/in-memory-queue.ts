@@ -1,5 +1,5 @@
-import { EventEmitter } from 'events';
-import { formatDate } from '@monorepo/shared';
+import { EventEmitter } from "events";
+import { Utils } from "@monorepo/shared";
 
 interface Job<T = any> {
   id: string;
@@ -22,16 +22,18 @@ export class InMemoryQueue extends EventEmitter {
     const job: Job = {
       id: Math.random().toString(36).substring(7),
       data,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
-    
+
     this.jobs.push(job);
-    console.log(`[${this.name}] Added job ${job.id} at ${formatDate(job.timestamp)}`);
-    
+    console.log(
+      `[${this.name}] Added job ${job.id} at ${Utils.formatDate(job.timestamp)}`,
+    );
+
     if (!this.processing) {
       this.processNext();
     }
-    
+
     return job;
   }
 
@@ -47,15 +49,15 @@ export class InMemoryQueue extends EventEmitter {
     if (job) {
       try {
         console.log(`[${this.name}] Processing job ${job.id}`);
-        this.emit('active', job);
-        
+        this.emit("active", job);
+
         // Simulate async processing
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        this.emit('completed', job);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        this.emit("completed", job);
         console.log(`[${this.name}] Completed job ${job.id}`);
       } catch (error) {
-        this.emit('failed', job, error);
+        this.emit("failed", job, error);
         console.error(`[${this.name}] Failed job ${job.id}:`, error);
       }
     }
@@ -71,3 +73,4 @@ export class InMemoryQueue extends EventEmitter {
     console.log(`[${this.name}] Queue closed`);
   }
 }
+

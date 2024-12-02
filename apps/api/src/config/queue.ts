@@ -1,7 +1,7 @@
-import { Queue } from 'bullmq';
-import { createRedisConnection } from '@monorepo/shared';
+import { Queue } from "bullmq";
+import { Utils } from "@monorepo/shared";
 
-const connection = createRedisConnection();
+const connection = Utils.createRedisConnection();
 
 export function createQueue(name: string) {
   return new Queue(name, {
@@ -9,9 +9,10 @@ export function createQueue(name: string) {
     defaultJobOptions: {
       attempts: 3,
       backoff: {
-        type: 'exponential',
+        type: "exponential",
         delay: 1000,
       },
     },
   });
 }
+

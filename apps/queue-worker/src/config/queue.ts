@@ -1,18 +1,23 @@
-import { Queue, QueueOptions } from 'bullmq';
-import { createRedisConnection } from './redis';
+import { Queue, QueueOptions } from "bullmq";
 
-const connection = createRedisConnection();
+import { Utils } from "@monorepo/shared";
 
-export function createQueue(name: string, options?: Partial<QueueOptions>): Queue {
+const connection = Utils.createRedisConnection();
+
+export function createQueue(
+  name: string,
+  options?: Partial<QueueOptions>,
+): Queue {
   return new Queue(name, {
     connection,
     defaultJobOptions: {
       attempts: 3,
       backoff: {
-        type: 'exponential',
+        type: "exponential",
         delay: 1000,
       },
     },
     ...options,
   });
 }
+
