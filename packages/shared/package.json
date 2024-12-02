@@ -2,11 +2,20 @@
   "name": "@monorepo/shared",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
+    "build": "tsup",
+    "dev": "tsup --watch",
     "clean": "rm -rf dist",
     "generate": "drizzle-kit generate:pg",
     "migrate": "ts-node src/db/migrate.ts"
@@ -23,6 +32,8 @@
     "@types/jsonwebtoken": "^9.0.3",
     "@types/bcryptjs": "^2.4.4",
     "typescript": "^5.2.2",
-    "drizzle-kit": "^0.19.13"
+    "drizzle-kit": "^0.19.13",
+    "tsup": "^7.2.0"
   }
 }
+
