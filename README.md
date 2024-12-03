@@ -13,9 +13,10 @@ A modern full-stack monorepo with Next.js, Node.js, Python, and shared utilities
 │   ├── webapp1/            # Next.js application
 │   └── webapp2/            # Next.js application
 ├── packages/
-│   ├── shared/             # Shared TypeScript utilities
-│   └── ui/                 # Shared React components
-└── docker/                 # Docker configurations
+│   ├── eslint-config/     # Shared ESLint configurations
+│   ├── shared/            # Shared TypeScript utilities
+│   ├── typescript-config/ # Shared TypeScript configurations
+│   └── ui/                # Shared React components
 ```
 
 ## Technologies
@@ -88,23 +89,64 @@ A modern full-stack monorepo with Next.js, Node.js, Python, and shared utilities
 
 ### Available Scripts
 
+Root level scripts:
+
 - `npm run dev` - Start all services in development mode
-- `npm run dev:webapp1` - Start Next.js webapp1
-- `npm run dev:webapp2` - Start Next.js webapp2
-- `npm run dev:api` - Start Node.js API
-- `npm run dev:python-api` - Start Python API
-- `npm run dev:queue` - Start queue worker
-- `npm run dev:ui` - Start UI package in watch mode
 - `npm run build` - Build all packages and applications
-- `npm run test` - Run tests
-- `npm run lint` - Run linting
+- `npm run build:shared` - Build only shared packages
 - `npm run clean` - Clean build artifacts
+- `npm run lint` - Run linting
+- `npm run format` - Format code with Prettier
+- `npm run test` - Run tests
+- `npm run typecheck` - Run type checking
+
+Individual package/app scripts can be run using the workspace flag:
+
+```bash
+npm run dev --workspace=@monorepo/webapp1
+npm run build --workspace=@monorepo/api
+npm run test --workspace=@monorepo/shared
+```
+
+### Coding Best Practices
+
+#### File Organization
+
+- Create small, focused files with a single responsibility
+- Break down large files into multiple smaller modules
+- Group related functionality into dedicated directories
+- Keep file names descriptive and consistent
+
+#### Code Structure
+
+- Extract reusable logic into utility functions
+- Use shared types and interfaces from `@monorepo/shared`
+- Follow the established project patterns for each package
+- Keep components and functions pure and predictable
+
+#### Type Safety
+
+- Leverage TypeScript's type system effectively
+- Define clear interfaces for data structures
+- Use shared type definitions from `@monorepo/shared`
+- Avoid using `any` type
+
+#### Testing
+
+- Write unit tests for utility functions
+- Test components in isolation
+- Use meaningful test descriptions
+- Follow the AAA (Arrange, Act, Assert) pattern
 
 ### Adding a new dependency
 
 When you install a dependency, you should install it directly in the package that uses it. The package's package.json will have every dependency that the package needs. This is true for both external and internal dependencies.
 
-Here is an example: `npm install jest --workspace=web --workspace=@repo/ui --save-dev`
+Example:
+
+```bash
+npm install jest --workspace=web --workspace=@monorepo/ui --save-dev
+```
 
 ### Database Management
 
