@@ -13,19 +13,21 @@
     "dev": "tsup src/index.ts --format esm,cjs --watch --dts --external react",
     "lint": "eslint \"src/**/*.ts*\"",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
-    "generate": "drizzle-kit generate:pg",
-    "migrate": "ts-node src/migrate.ts"
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate"
   },
   "dependencies": {
-    "drizzle-orm": "^0.28.6",
-    "postgres": "^3.3.5",
-    "@neondatabase/serverless": "^0.6.0"
+    "dotenv": "^16.4.6",
+    "drizzle-orm": "^0.36.4",
+    "pg": "^8.13.1"
   },
   "devDependencies": {
-    "typescript": "^5.2.2",
-    "drizzle-kit": "^0.19.13",
+    "@monorepo/typescript-config": "*",
+    "@types/pg": "^8.11.10",
+    "drizzle-kit": "^0.28.1",
     "tsup": "^7.2.0",
-    "@monorepo/typescript-config": "*"
+    "tsx": "^4.19.2",
+    "typescript": "^5.2.2"
   },
   "publishConfig": {
     "access": "public"
