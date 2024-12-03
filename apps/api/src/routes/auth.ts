@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { eq } from "drizzle-orm";
-import { ApiTypes, AuthTypes, Utils, Database } from "@monorepo/shared";
+import { ApiTypes, AuthTypes, Utils } from "@monorepo/shared";
+import { createConnection, users } from "@monorepo/database";
 
 const router = Router();
 const redis = Utils.createRedisConnection();
-const db = Database.createConnection();
+const db = createConnection();
 
 router.post("/register", async (req, res) => {
   try {
@@ -13,8 +14,8 @@ router.post("/register", async (req, res) => {
     // Check if user exists
     const existingUser = await db
       .select()
-      .from(Database.users)
-      .where(eq(Database.users.email, email))
+      .from(users)
+      .where(eq(users.email, email))
       .limit(1);
     if (existingUser.length > 0) {
       return res.status(400).json({
@@ -28,7 +29,7 @@ router.post("/register", async (req, res) => {
 
     // Create new user
     const [newUser] = await db
-      .insert(Database.users)
+      .insert(users)
       .values({
         email,
         name,
@@ -85,8 +86,8 @@ router.post("/login", async (req, res) => {
     // Get user
     const [user] = await db
       .select()
-      .from(Database.users)
-      .where(eq(Database.users.email, email))
+      .from(users)
+      .where(eq(users.email, email))
       .limit(1);
     if (!user) {
       return res.status(401).json({
@@ -221,4 +222,3 @@ router.post("/logout", async (req, res) => {
 });
 
 export default router;
-

@@ -9,7 +9,8 @@
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "test": "turbo run test",
-    "typecheck": "turbo run typecheck"
+    "typecheck": "turbo run typecheck",
+    "migrate": "npm run migrate --workspace=@monorepo/database"
   },
   "devDependencies": {
     "prettier": "^3.3.5",

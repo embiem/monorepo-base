@@ -17,6 +17,7 @@ A modern full-stack monorepo with Next.js, Node.js, Python, and shared utilities
 │   ├── shared/            # Shared TypeScript utilities
 │   ├── typescript-config/ # Shared TypeScript configurations
 │   └── ui/                # Shared React components
+└── docker/                # Docker configurations
 ```
 
 ## Technologies
@@ -90,7 +91,6 @@ A modern full-stack monorepo with Next.js, Node.js, Python, and shared utilities
 ### Available Scripts
 
 Root level scripts:
-
 - `npm run dev` - Start all services in development mode
 - `npm run build` - Build all packages and applications
 - `npm run build:shared` - Build only shared packages
@@ -101,7 +101,6 @@ Root level scripts:
 - `npm run typecheck` - Run type checking
 
 Individual package/app scripts can be run using the workspace flag:
-
 ```bash
 npm run dev --workspace=@monorepo/webapp1
 npm run build --workspace=@monorepo/api
@@ -111,28 +110,24 @@ npm run test --workspace=@monorepo/shared
 ### Coding Best Practices
 
 #### File Organization
-
 - Create small, focused files with a single responsibility
 - Break down large files into multiple smaller modules
 - Group related functionality into dedicated directories
 - Keep file names descriptive and consistent
 
 #### Code Structure
-
 - Extract reusable logic into utility functions
 - Use shared types and interfaces from `@monorepo/shared`
 - Follow the established project patterns for each package
 - Keep components and functions pure and predictable
 
 #### Type Safety
-
 - Leverage TypeScript's type system effectively
 - Define clear interfaces for data structures
 - Use shared type definitions from `@monorepo/shared`
 - Avoid using `any` type
 
 #### Testing
-
 - Write unit tests for utility functions
 - Test components in isolation
 - Use meaningful test descriptions
@@ -143,7 +138,6 @@ npm run test --workspace=@monorepo/shared
 When you install a dependency, you should install it directly in the package that uses it. The package's package.json will have every dependency that the package needs. This is true for both external and internal dependencies.
 
 Example:
-
 ```bash
 npm install jest --workspace=web --workspace=@monorepo/ui --save-dev
 ```
@@ -205,10 +199,10 @@ import { Button, Input } from "@monorepo/ui/components";
 
 ### Ports
 
-- Webapp1: <http://localhost:3000>
-- Webapp2: <http://localhost:3001>
-- Node.js API: <http://localhost:4000>
-- Python API: <http://localhost:5000>
+- Webapp1: http://localhost:3000
+- Webapp2: http://localhost:3001
+- Node.js API: http://localhost:4000
+- Python API: http://localhost:5000
 - Redis: localhost:6379
 - PostgreSQL: localhost:5432
 

@@ -9,7 +9,3 @@ export function createConnection(
   const queryClient = postgres(connectionString);
   return drizzle(queryClient, { schema });
 }
-
-export * from "./schema";
-export * from "./migrate";
-
